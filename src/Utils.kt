@@ -1,12 +1,21 @@
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
 import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
-import kotlin.io.path.readText
+import kotlin.io.path.readLines
 
 /**
  * Reads lines from the given input txt file.
  */
-fun readInput(name: String) = Path("src/$name.txt").readText().trim().lines()
+fun readInput(name: String) = Path("src/$name.txt").readLines()
+
+fun x() = FileReader(File("")).use { it ->
+    it
+}
 
 /**
  * Converts string to md5 hash.
@@ -19,3 +28,10 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  * The cleaner shorthand for printing output.
  */
 fun Any?.println() = println(this)
+
+fun <T : Number> solve(puzzle: (List<String>) -> T, withInput: String, andAssert: T? = null) {
+    val input = readInput(withInput).dropLastWhile { it.isEmpty() }
+    val result = puzzle(input)
+    println(result)
+    andAssert?.let { assertThat(result).isEqualTo(it) }
+}
