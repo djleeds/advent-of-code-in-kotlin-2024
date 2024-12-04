@@ -1,8 +1,3 @@
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
 import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
@@ -12,10 +7,6 @@ import kotlin.io.path.readLines
  * Reads lines from the given input txt file.
  */
 fun readInput(name: String) = Path("src/$name.txt").readLines()
-
-fun x() = FileReader(File("")).use { it ->
-    it
-}
 
 /**
  * Converts string to md5 hash.
@@ -33,5 +24,5 @@ fun <T : Number> solve(puzzle: (List<String>) -> T, withInput: String, andAssert
     val input = readInput(withInput).dropLastWhile { it.isEmpty() }
     val result = puzzle(input)
     println(result)
-    andAssert?.let { assertThat(result).isEqualTo(it) }
+    andAssert?.let { require(result == it) }
 }
