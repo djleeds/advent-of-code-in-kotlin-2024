@@ -1,3 +1,5 @@
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
@@ -24,5 +26,5 @@ fun <T : Number> solve(puzzle: (List<String>) -> T, withInput: String, andAssert
     val input = readInput(withInput).dropLastWhile { it.isEmpty() }
     val result = puzzle(input)
     println(result)
-    andAssert?.let { require(result == it) }
+    andAssert?.let { assertThat(result).isEqualTo(it) }
 }
